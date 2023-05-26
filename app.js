@@ -10,6 +10,15 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// 跨域配置
+app.all("*", function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
+  res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPPTIONS,DELETE,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,IF-Modified-Since,test");
+  next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // 配置html模板
@@ -30,12 +39,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
